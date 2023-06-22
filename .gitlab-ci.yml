@@ -1,0 +1,28 @@
+stages: 
+  - test_n_deploy 
+ 
+before_script: 
+  - apt-get update -yq
+  - apt-get install -y curl unzip zip awscli 
+  - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+  - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+  - aws configure set aws_default_region $AWS_DEFAULT_REGION
+  - echo 'installing terraform . . .'
+  - mkdir temp_dir && cd temp_dir # create new folder b'cos there is a folder already named terraform in source code
+  - curl "https://releases.hashicorp.com/terraform/1.5.0/terraform_1.5.0_linux_amd64.zip" -o "terraform_archive.zip"
+  - unzip -o terraform_archive.zip
+  - chmod +x terraform
+  - mv -f terraform /usr/local/bin/
+  - cd .. # move to to base folder of source code
+  - terraform --version
+
+
+test_n_deploy:
+  stage: test_n_deploy
+  script:   
+    - cd backend && zip -r jobs_api.py.zip jobs_api.py && cd ..
+    - cd terraform
+    - terraform init
+    - terraform validate
+    - terraform apply --auto-approve
+      
