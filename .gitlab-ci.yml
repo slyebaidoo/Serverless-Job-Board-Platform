@@ -20,6 +20,7 @@ before_script:
 test_n_deploy:
   stage: test_n_deploy
   script:   
+    - aws s3 sync frontend s3://sem-project-cc
     - cd backend && zip -r jobs_api.py.zip jobs_api.py && cd ..
     - cd terraform
     - terraform init
