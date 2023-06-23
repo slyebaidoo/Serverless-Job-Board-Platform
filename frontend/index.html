@@ -75,21 +75,25 @@
 				</div> -->
 
 
-				<div class="item-click" v-for="job in jobs" >
+				<div class="item-click" v-for="job in jobs">
 					<article>
 						<div class="brows-job-list">
 							<div class="col-md-1 col-sm-2 small-padding"></div>
 							<div class="col-md-6 col-sm-5">
 								<div class="brows-job-position">
-									<a :href="`job-detail.html?job=${ job._id }`"> <h3>{{ job.title }}</h3></a>
-									<p>{{ job.description.slice(0,100) }} . . .</p>
+									<!-- <a :href="`job-detail.html?job=${ job._id }`"> <h3>{{ job.title }}</h3></a> -->
+									<a href="#">
+										<h3>{{ job.title }}</h3>
+									</a>
+									<p>{{ job.description.slice(0,300) }} . . .</p>
 									<p>
 										<span class="job-type cl-success bg-trans-success">{{ job.company }}</span>
 										<span></span>
-										<span class="brows-job-sallery"><i class="fa fa-money"></i>EUR {{ job.salary_min }} - {{ job.salary_max }}</span>
+										<span class="brows-job-sallery"><i class="fa fa-money"></i>EUR
+											{{ job.salary_min }} - {{ job.salary_max }}</span>
 									</p>
 								</div>
-							</div> 
+							</div>
 							<div class="col-md-3 col-sm-3">
 								<div class="brows-job-location">
 									<p><i class="fa fa-map-marker"></i>{{ job.location }}</p>
@@ -97,13 +101,13 @@
 							</div>
 							<div class="col-md-2 col-sm-2">
 								<div class="brows-job-link">
-									<a :href="`job-detail.html?job=${ job._id }`" class="btn btn-default">view details</a>
+									<a href="#" class="btn btn-default">view details</a>
 								</div>
 							</div>
-						</div> 
+						</div>
 					</article>
 				</div>
- 
+
 				<!--/.row-->
 				<!-- <div class="row">
 					<ul class="pagination">
@@ -123,12 +127,12 @@
 
 		<!-- Footer Section Start -->
 		<footer class="footer" style="display: flex; justify-content: center;">
-			<h2>Job Board</h2> 
+			<h2>Job Board</h2>
 		</footer>
 
 		<div class=" clearfix"></div>
 		<!-- Footer Section End -->
- 
+
 		<!-- End Sign Up Window -->
 
 		<!-- Scripts
@@ -172,33 +176,34 @@
 		let app = new Vue({
 			el: '#app',
 			data: {
-				jobs: []
-			}, 
-			created() {  
-				axios.post('https://pxpo4e1xme.execute-api.us-east-2.amazonaws.com/prod/job', {"operation": "read"})
+				jobs: [{
+					"location": "Berlin",
+					"created_at": "2023-06-22T17:06:58Z",
+					"salary_min": "50000",
+					"company": "Capgemini",
+					"salary_max": "60000",
+					"job_id": "7a6e6b5b-1052-4ae9-bb6e-f08f1adc1a48",
+					"description": "Manage our infrastructure",
+					"title": "Senior DevOps Engineer"
+				}]
+			},
+			created() {
+				axios.post('https://3w4vxzdpzj.execute-api.us-east-2.amazonaws.com/prod/job', {
+						"operation": "read"
+					})
 					.then(response => {
 						// Handle the successful response
-						console.log(response); 
-						this.jobs = response;
+						console.log(response.data);
+						this.jobs = response.data;
 					})
 					.catch(error => {
 						console.error(error);
 						alert('An error occured whilst loading list of jobs. Check if API server is up.');
-					}); 
-
-				// fetch('https://xxhxb1h365.execute-api.us-east-2.amazonaws.com/prod/job')
-				// 	.then((response) => response.json())
-				// 	.then((data) => {
-				// 		console.log(data);
-				// 		this.jobs = data;
-				// 	})
-				// 	.catch(error => {
-				// 		console.error(error);
-				// 		alert('An error occured whilst loading list of jobs. Check if API server is up.');
-				// 	});
+					});
 			}
 		})
 	</script>
 </body>
 <!-- browse-jobs41:12-->
+
 </html>

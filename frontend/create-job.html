@@ -67,7 +67,7 @@
 							<input type="text" class="form-control" placeholder="Company" v-model="job.company">
 						</div>
 					</div>
- 
+
 
 					<div class="col-md-6 col-sm-6">
 						<div class="input-group">
@@ -77,28 +77,31 @@
 
 					<div class="col-md-6 col-sm-6">
 						<div class="input-group">
-							<input type="number" step="1" class="form-control" placeholder="Minimum Salary (EUR)" v-model.number="job.salary_min">
+							<input type="number" step="1" class="form-control" placeholder="Minimum Salary (EUR)"
+								v-model.number="job.salary_min">
 						</div>
 					</div>
 
 					<div class="col-md-6 col-sm-6">
 						<div class="input-group">
-							<input type="number" step="1" class="form-control" placeholder="Maximum Salary (EUR)" v-model.number="job.salary_max">
+							<input type="number" step="1" class="form-control" placeholder="Maximum Salary (EUR)"
+								v-model.number="job.salary_max">
 						</div>
 					</div>
 
 					<div class="col-md-12 col-sm-12">
-						<textarea class="form-control" placeholder="Job Description" v-model="job.description"></textarea>
+						<textarea class="form-control" placeholder="Job Description"
+							v-model="job.description"></textarea>
 					</div>
 
 					<input type="submit" class="btn btn-success btn-primary small-btn" value="post new job">
 				</form>
 			</div>
- 
+
 		</div>
 	</div>
 	<!-- General Detail End -->
- 
+
 	<!-- Basic Full Detail Form End -->
 
 	<!-- Footer Section Start -->
@@ -107,13 +110,13 @@
 	<!-- Footer Section End -->
 
 	<footer class="footer" style="display: flex; justify-content: center;">
-		<h2>Job Board</h2>   
+		<h2>Job Board</h2>
 	</footer>
 
 	<!-- Footer Section End -->
 	<div class="clearfix"></div>
 	<!-- Sign Up Window Code -->
-	 
+
 
 	<script type="text/javascript" src="assets/plugins/js/jquery.min.js"></script>
 	<script type="text/javascript" src="assets/plugins/js/viewportchecker.js"></script>
@@ -132,7 +135,7 @@
 
 	<script src="assets/js/custom.js"></script>
 	<script src="assets/js/jQuery.style.switcher.js"></script>
-	
+
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js?df"></script>
 	<script>
@@ -152,7 +155,7 @@
 			methods: {
 				postJob() {
 
-					axios.post('https://pxpo4e1xme.execute-api.us-east-2.amazonaws.com/prod/job', this.job)
+					axios.post('https://3w4vxzdpzj.execute-api.us-east-2.amazonaws.com/prod/job', this.job)
 						.then(response => {
 							// Handle the successful response
 							console.log(response);
@@ -168,13 +171,14 @@
 								salary_max: null
 							};
 						})
-						.catch(error => { 
+						.catch(error => {
 							console.error(error);
 							alert('An error occured whilst sending form');
-						}); 
+						});
 				}
-			} 
+			}
 		})
 	</script>
 </body>
+
 </html>

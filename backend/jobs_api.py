@@ -24,8 +24,13 @@ def lambda_handler(event, context):
             #  converting iterms to json
             json_items = [json.loads(json.dumps(item, default=str)) for item in items]
             
-            return  {
+            return  { 
                 'statusCode': 200,
+                'headers': {
+                    "Access-Control-Allow-Headers": "Content-Type",
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
+                },
                 'body': json.dumps(json_items, default=str)
             }
               
@@ -45,11 +50,21 @@ def lambda_handler(event, context):
          
         return {
             'statusCode': 201, 
-           'body': '{"status":"New Job added "}'
+            'headers': {
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
+            },
+            'body': '{"status":"New Job added "}'
         }
     except Exception as e:
         logging.error(e)
         return {
             'statusCode': 500,
+            'headers': {
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
+            },
            'body': str(e) 
         }
