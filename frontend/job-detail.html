@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title>Job Stock</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="assets/plugins/css/plugins.css">
+	<link href="assets/css/style.css" rel="stylesheet">
+	<link type="text/css" rel="stylesheet" id="jssDefault" href="assets/css/colors/green-style.css">
+</head>
+
+<body>
+	<div id="app">
+		<header>
+			<nav class="navbar navbar-default navbar-fixed navbar-transparent white bootsnav">
+				<div class="container">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu"><i
+							class="fa fa-bars"></i></button>
+					<div class="navbar-header"><a class="navbar-brand" href="index.html"><img
+								src="assets/img/logo-white.png" class="logo logo-display" alt=""><img
+								src="assets/img/logo-white.png" class="logo logo-scrolled" alt=""></a></div>
+					<div class="collapse navbar-collapse" id="navbar-menu">
+						<ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
+							<li><a href="browse-company.html">Browse Companies</a></li>
+							<li><a href="create-job.html">Create Job</a></li>
+							<li class="left-br"><a href="javascript:void(0)" data-toggle="modal" data-target="#signup"
+									class="signin">Sign In</a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<div class="clearfix"></div>
+
+		<!-- Title Header Start -->
+		<section class="inner-header-page">
+			<div class="container">
+
+				<div class="col-md-8">
+					<div class="left-side-container">
+						<div class="freelance-image"><a href="#"><img src="assets/img/com-2.jpg" class="img-responsive" alt=""></a></div>
+						<div class="header-details">
+							<h4 style="color: white;">{{ job.title }}</h4>
+							<p style="color: white;">{{ job.company }}</p>
+							<ul>
+								<li style="color: white;">EUR {{ job.salary_min }} - {{ job.salary_max }}</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-4 bl-1 br-gary">
+					<div class="right-side-detail">
+						<ul>
+							<li style="color: white;"><span class="detail-info">Availability</span>Full Time</li>
+							<li style="color: white;"><span class="detail-info">Location</span>{{ job.location }}</li> 
+						</ul>
+					</div>
+				</div>
+
+			</div>
+		</section>
+		<div class="clearfix"></div>
+		<!-- Title Header End -->
+
+		<!-- Job Detail Start -->
+		<section>
+			<div class="container">
+
+				<div class="col-md-8 col-sm-8">
+					<div class="container-detail-box">
+
+						<div class="apply-job-header">
+							<h4>{{ job.title }}</h4>
+							<hr/>
+						</div>
+
+						<div class="apply-job-detail">
+							<p>{{ job.description }}</p> 
+						</div>
+
+						<!-- <div class="apply-job-detail">
+							<h5>Skills</h5>
+							<ul class="skills">
+								<li>Css3</li>
+								<li>Html5</li> 
+							</ul>
+						</div> -->
+
+						<div class="apply-job-detail">
+							<hr/>
+							<h5>Summary</h5>
+							<ul class="job-requirements">
+								<li><span>Salary</span>EUR {{ job.salary_min }} - {{ job.salary_max }}</li>
+								<li><span>Location</span> {{ job.location }}</li>
+								<li><span>Type</span> Full Time</li> 
+							</ul>
+						</div>
+
+						<a href="#" class="btn btn-success">Apply For This Job</a>
+					</div>
+				</div>
+
+
+			</div>
+		</section>
+		<!-- Job Detail End -->
+	</div>
+
+	<!-- Footer Section Start -->
+	<footer class="footer" style="display: flex; justify-content: center;">
+		<h2>Job Board</h2> 
+	</footer>
+	
+	<div class=" clearfix"></div>
+	<!-- Footer Section End -->
+ 
+	<!-- Scripts
+			================================================== -->
+	<script type="text/javascript" src="assets/plugins/js/jquery.min.js"></script>
+	<script type="text/javascript" src="assets/plugins/js/viewportchecker.js"></script>
+	<script type="text/javascript" src="assets/plugins/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="assets/plugins/js/bootsnav.js"></script>
+	<script type="text/javascript" src="assets/plugins/js/select2.min.js"></script>
+	<script type="text/javascript" src="assets/plugins/js/wysihtml5-0.3.0.js"></script>
+	<script type="text/javascript" src="assets/plugins/js/bootstrap-wysihtml5.js"></script>
+	<script type="text/javascript" src="assets/plugins/js/datedropper.min.js"></script>
+	<script type="text/javascript" src="assets/plugins/js/dropzone.js"></script>
+	<script type="text/javascript" src="assets/plugins/js/loader.js"></script>
+	<script type="text/javascript" src="assets/plugins/js/owl.carousel.min.js"></script>
+	<script type="text/javascript" src="assets/plugins/js/slick.min.js"></script>
+	<script type="text/javascript" src="assets/plugins/js/gmap3.min.js"></script>
+	<script type="text/javascript" src="assets/plugins/js/jquery.easy-autocomplete.min.js"></script>
+
+	<!-- Custom Js -->
+	<script src="assets/js/custom.js"></script>
+	<script src="assets/js/jQuery.style.switcher.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js?df"></script>
+	<script>
+		let app = new Vue({
+			el: '#app',
+			data: {
+				job: {}
+			},
+			created() {
+				jobId = (new URLSearchParams(window.location.search)).get('job')
+				fetch('http://localhost:8081/jobs/' + jobId )
+					.then((response) => response.json())
+					.then((data) => {
+						console.log(data);
+						this.job = data;
+					})
+					.catch(error => {
+						console.error(error);
+						alert('Could not load details of job. Check if API server is up.');
+					});
+			}
+		})
+	</script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 stages: 
   - test_n_deploy 
- 
+
 before_script: 
   - apt-get update -yq
   - apt-get install -y curl unzip zip awscli 
@@ -25,4 +25,5 @@ test_n_deploy:
     - terraform init
     - terraform validate
     - terraform apply --auto-approve
-      
+    
+    

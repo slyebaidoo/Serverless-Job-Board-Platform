@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title>Create Job</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="assets/plugins/css/plugins.css">
+	<link href="assets/css/style.css" rel="stylesheet">
+	<link type="text/css" rel="stylesheet" id="jssDefault" href="assets/css/colors/green-style.css">
+</head>
+
+<body>
+	<header>
+		<nav class="navbar navbar-default navbar-fixed navbar-transparent white bootsnav">
+			<div class="container">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu"><i
+						class="fa fa-bars"></i></button>
+				<div class="navbar-header"><a class="navbar-brand" href="index.html"><img
+							src="assets/img/logo-white.png" class="logo logo-display" alt=""><img
+							src="assets/img/logo-white.png" class="logo logo-scrolled" alt=""></a></div>
+				<div class="collapse navbar-collapse" id="navbar-menu">
+					<ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
+						<li><a href="browse-company.html">Browse Companies</a></li>
+						<li><a href="create-job.html">Create Job</a></li>
+						<li class="left-br"><a href="javascript:void(0)" data-toggle="modal" data-target="#signup"
+								class="signin">Sign In</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+	<!-- End Navigation -->
+
+	<!-- Header Title Start -->
+	<section class="inner-header-title blank">
+		<div class="container">
+			<h1>Post a new Job</h1>
+		</div>
+	</section>
+	<div class="clearfix"></div>
+	<!-- Header Title End -->
+
+	<!-- General Detail Start -->
+	<div class="detail-desc section">
+		<div class="container white-shadow">
+
+			<div class="row">
+				<div class="detail-pic js">
+					<div class="box">
+						<input type="file" name="upload-pic[]" id="upload-pic" class="inputfile" />
+						<label for="upload-pic"><i class="fa fa-upload" aria-hidden="true"></i><span></span></label>
+					</div>
+				</div>
+			</div>
+
+			<div class="row bottom-mrg" id="app">
+				<form class="add-feild" @submit.prevent="postJob">
+					<div class="col-md-12 col-sm-12">
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="Job Title" v-model="job.title">
+						</div>
+					</div>
+
+					<div class="col-md-6 col-sm-6">
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="Company" v-model="job.company">
+						</div>
+					</div>
+ 
+
+					<div class="col-md-6 col-sm-6">
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="Location" v-model="job.location">
+						</div>
+					</div>
+
+					<div class="col-md-6 col-sm-6">
+						<div class="input-group">
+							<input type="number" step="1" class="form-control" placeholder="Minimum Salary (EUR)" v-model.number="job.salary_min">
+						</div>
+					</div>
+
+					<div class="col-md-6 col-sm-6">
+						<div class="input-group">
+							<input type="number" step="1" class="form-control" placeholder="Maximum Salary (EUR)" v-model.number="job.salary_max">
+						</div>
+					</div>
+
+					<div class="col-md-12 col-sm-12">
+						<textarea class="form-control" placeholder="Job Description" v-model="job.description"></textarea>
+					</div>
+
+					<input type="submit" class="btn btn-success btn-primary small-btn" value="post new job">
+				</form>
+			</div>
+ 
+		</div>
+	</div>
+	<!-- General Detail End -->
+ 
+	<!-- Basic Full Detail Form End -->
+
+	<!-- Footer Section Start -->
+
+	<div class="clearfix"></div>
+	<!-- Footer Section End -->
+
+	<footer class="footer" style="display: flex; justify-content: center;">
+		<h2>Job Board</h2>   
+	</footer>
+
+	<!-- Footer Section End -->
+	<div class="clearfix"></div>
+	<!-- Sign Up Window Code -->
+	 
+
+	<script type="text/javascript" src="assets/plugins/js/jquery.min.js"></script>
+	<script type="text/javascript" src="assets/plugins/js/viewportchecker.js"></script>
+	<script type="text/javascript" src="assets/plugins/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="assets/plugins/js/bootsnav.js"></script>
+	<script type="text/javascript" src="assets/plugins/js/select2.min.js"></script>
+	<script type="text/javascript" src="assets/plugins/js/wysihtml5-0.3.0.js"></script>
+	<script type="text/javascript" src="assets/plugins/js/bootstrap-wysihtml5.js"></script>
+	<script type="text/javascript" src="assets/plugins/js/datedropper.min.js"></script>
+	<script type="text/javascript" src="assets/plugins/js/dropzone.js"></script>
+	<script type="text/javascript" src="assets/plugins/js/loader.js"></script>
+	<script type="text/javascript" src="assets/plugins/js/owl.carousel.min.js"></script>
+	<script type="text/javascript" src="assets/plugins/js/slick.min.js"></script>
+	<script type="text/javascript" src="assets/plugins/js/gmap3.min.js"></script>
+	<script type="text/javascript" src="assets/plugins/js/jquery.easy-autocomplete.min.js"></script>
+
+	<script src="assets/js/custom.js"></script>
+	<script src="assets/js/jQuery.style.switcher.js"></script>
+	
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js?df"></script>
+	<script>
+		var app = new Vue({
+			el: '#app',
+			data: {
+				job: {
+					title: null,
+					company: null,
+					location: null,
+					description: null,
+					salary_min: null,
+					salary_max: null
+				}
+			},
+
+			methods: {
+				postJob() {
+
+					axios.post('https://pxpo4e1xme.execute-api.us-east-2.amazonaws.com/prod/job', this.job)
+						.then(response => {
+							// Handle the successful response
+							console.log(response);
+
+							alert("form submitted successfully!");
+
+							this.job = {
+								title: null,
+								company: null,
+								location: null,
+								description: null,
+								salary_min: null,
+								salary_max: null
+							};
+						})
+						.catch(error => { 
+							console.error(error);
+							alert('An error occured whilst sending form');
+						}); 
+				}
+			} 
+		})
+	</script>
+</body>
+</html>
