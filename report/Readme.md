@@ -2,9 +2,9 @@
 
 <br/>
 
-## Project Documentation - Job Listing Platform
+# Project Documentation - Job Listing Platform
 
-##### Prof. Dr Thomas Fankhauser | Cloud Computing | Orange Repo | Hochshule Heilbronn 
+###### Prof. Dr Thomas Fankhauser | Cloud Computing | Orange Repo | Hochshule Heilbronn 
 
 ---
 
@@ -42,7 +42,7 @@ To provide a user-friendly interface, the frontend of the application was develo
 
 The backend of the application is built as a serverless application using AWS Lambda and Python. The backend exposes Representational State Transfer (REST) API endpoints that handle requests from the frontend. The data is stored in DynamoDB, a cloud database service provided by AWS. The use of serverless architecture allows for automatic scaling based on demand, ensuring efficient resource allocation.
 
-#### 1.1 screenshots of the application:
+### 1.1 screenshots of the application:
 Here are some screenshots of the frontend of the application which is available at 
 [http://sem-project-cc.s3-website.eu-central-1.amazonaws.com/](http://sem-project-cc.s3-website.eu-central-1.amazonaws.com)
 
@@ -68,16 +68,16 @@ The architecture of the application was designed to leverage the benefits of var
 ![](images/architecture.png)
 Figure 2.1 - Architecture of job board project
 
-#### 2.1 Inter-component Communication
+### 2.1 Inter-component Communication
 
 The communication between components is event-driven. For example, an incoming  HTTP request is received at the API Gateway. The API gateway triggers the Lambda function handler, which is a python code. The lambda (python code) interacts with the DynamoDB to read from the database or write data to the database. The Identity and Authorization Management policy that was created grants the lambda permissions to interact with the database - DynamoDB. Any log data or error is written to the application logs which is viewable on cloudwatch.
 
 
-#### 2.2 Scalability
+### 2.2 Scalability
 
 The application scales out automatically as AWS Lambda and DynamoDB automatically scale out by creating additional instances in response to increased demand. When the number of incoming requests, Lambda provisions more instances of the function to handle the workload concurrently.
 
-#### 2.3 Data Model
+### 2.3 Data Model
 
 The data model of the application includes entities such ‘jobs’. The data model is stored in DynamoDB and follows a NoSQL structure. The attributes of the job entity is shown in Table 2.1
 
@@ -120,7 +120,7 @@ The data model of the application includes entities such ‘jobs’. The data mo
     </tbody>
 </table>
 
-#### 2.4 AWS - Services Used
+### 2.4 AWS - Services Used
 
 The application uses the following AWS services:
 
@@ -174,46 +174,68 @@ The communication between the frontend and backend is facilitated by the API Gat
 The base url is : [https://3w4vxzdpzj.execute-api.us-east-2.amazonaws.com/prod/](https://3w4vxzdpzj.execute-api.us-east-2.amazonaws.com/prod/) 
 
 ## Chapter 3 -  Tooling
+### 3.1 Working on the application
 
 The development process of the application is facilitated by several tools and practices. The application was worked on in a local development environment in Visual Studio Code, a text editor. The following tools were installed in the local environment to enable testing parts of the application locally - 
 
-1. **Terraform** : an Infrastructure as Code tool, was used for automated infrastructure provisioning and management, ensuring consistent and reproducible deployments. It was used to define the AWS resources required for the application, such as API Gateway, Lambda functions, DynamoDB, and IAM policies.
-2. **Command Line Interface for Amazon Web Services** (aws-cli) : for interacting with resources in the AWS account. An IAM user was created in the AWS portal and the access key id, secret access key and default aws region were stored in a file on disk located at  ~./aws/credentials
-3. **Git** : a version control system was used to save code changes, fetch code from the remote repository and also send code (push) to the remote repository.
-4. **Python programming language** : was used in implementing the REST api endpoints outlined in Table 2.2 .
+-  **Command Line Interface for Amazon Web Services** (aws-cli) : for interacting with resources in the AWS account. An IAM user was created in the AWS portal and the access key id, secret access key and default aws region were stored in a file on disk located at  ~./aws/credentials
+-  **Git** : a version control system was used to save code changes, fetch code from the remote repository and also send code (push) to the remote repository.
+
+-  **Python programming language** : was used in implementing the REST api endpoints outlined in Table 2.2 .
+### 3.2 Automation
+-  **Terraform** : an Infrastructure as Code tool, was used for automated infrastructure provisioning and management, ensuring consistent and reproducible deployments. It was used to define the AWS resources required for the application, such as API Gateway, Lambda functions, DynamoDB, and IAM policies.
+- **CI/CD**: When code changes are deployed, GitLab CI/CD automatically applies the Terraform configuration, which creates, updates, or deletes the necessary AWS resources.
+
+### 3.3 Deployment Process
+Code changes in the serverless job listing platform are deployed using GitLab's CI/CD pipelines. The deployment process involves the following steps:
+
+1. **Version Control and Collaboration**: Developers work in feature branches in the Git repository and collaborate using GitLab's version control system. Branches are created for each new feature or bug fix.
+
+2. **Continuous Integration/Continuous Deployment (CI/CD)**: The CI/CD pipeline is triggered automatically when changes are pushed to the repository. It performs automated builds, tests, and deployments.
+
+3. **Test and Deploy**: During the pipeline, the code changes are built, tested, and packaged for deployment. 
+
+
+### 3.3 Deploying Code Changes to AWS Resources
+To deploy code changes to the AWS resources;
+
+1. **Push Changes**: Push code changes to the Git repository's feature branch.
+
+2. **GitLab CI/CD**: GitLab's CI/CD pipelines will automatically be triggered by the code changes. The pipeline stages will execute sequentially.
+
+3. **Monitor Pipeline**: Monitor the pipeline's progress and check for any failures or errors. The pipeline's status and logs can be accessed from the GitLab project's CI/CD interface.
+
+4. **Verify Deployment**: After a successful pipeline run, verify that the code changes are deployed correctly by testing the functionality on the deployed application.
 
 The pipeline is defined in the CI/CD configuration file named ‘**.gitlab-ci.yml**’. Whenever a commit is pushed to any branch of the GitLab repository, the pipeline is triggered. It specifies the sequence of tasks to be executed including installing terraform, aws-cli in the test environment, validating the terraform configuration (**/terraform/main.tf**) and automatically deploying the application to AWS using Terraform. The pipeline terminates immediately when any error occurs. 
 
 The pipeline file looks like this : 
->`stages:`
->  - `build,test_n_deploy`
->
->`before_script:` 
->   `...`
->   `...`
->   `...`
->
->
->
->`test_n_deploy:`
->`stage: test_n_deploy`
->  `script:`   
->   `...`
->   `...`
->   `...`
+
+Figure 3.1 
+![CI/CD Pipeline](screenshots/image.png)
+
 
 ## Chapter 4 - Lessons Learned
+### 4.1 - Learnings
 
-Throughout the development process, several lessons were learned:
+- First of all, the automation of infrastructure using Terraform is an invaluable tool. It enabled consistent and repeatable deployments and simplified the management of AWS resources using code.
 
-First of all, the automation of infrastructure using Terraform is an invaluable tool. It enabled consistent and repeatable deployments and simplified the management of AWS resources using code.
+- Another lesson learnt is, the CI/CD pipeline helps streamline the development and deployment process. The pipeline can be used to automate many tasks, such as performing automated tests, ensuring code quality, deploying code to production.
 
-Another lesson learnt is, the CI/CD pipeline helps streamline the development and deployment process. The pipeline can be used to automate many tasks, such as performing automated tests, ensuring code quality, deploying code to production.
+- Monitoring and logging were essential for troubleshooting and identifying issues. Sometimes the value of a variable needs to be logged as part of the debugging process. Integrating with AWS CloudWatch for monitoring and logging provided valuable insights into the application's performance.
 
-Monitoring and logging were essential for troubleshooting and identifying issues. Sometimes the value of a variable needs to be logged as part of the debugging process. Integrating with AWS CloudWatch for monitoring and logging provided valuable insights into the application's performance.
+- Last but not least, serverless computing enables developers to build applications faster because they don't have to worry about managing their own servers or handling scaling. Cloud resources need to be configured correctly according to the project's needs to avoid over-billing. 
 
-Last but not least, serverless computing enables developers to build applications faster because they don't have to worry about managing their own servers or handling scaling. Cloud resources need to be configured correctly according to the project's needs to avoid over-billing. 
+### 4.2 - Easy and Complicated
+#### 4.2.1 - Easy
+- **Scalability**: One of the easy aspects was to not worry about increase traffic because AWS Lambda and DynamoDB will handle it.
+
+#### 4.2.2 Complicated
+- **Understanding the overall structure of the application and flow of the development was a very steep learning curve**, especially for us who are not well vexed Serverless Architecture -*Cloud* and IaCs - *Terraform*.
+- **Working with a non-collaborative team member** can present challenges in terms of communication, cooperation, and alignment on project goals and standards. This can result in delays, misunderstandings, and a lack of cohesion within the team.
 
 ## Chapter 5 - Conclusion
 
-Overall, the project provided valuable insights into building scalable and serverless applications using AWS services. It emphasized the importance of automation, proper infrastructure design, and efficient communication between components.
+Overall, the project provided valuable insights into building scalable and serverless applications using AWS services. 
+It emphasized the importance of automation, proper infrastructure design, and efficient communication between components. 
+I have a new skill that set's me apart from fellow Job Applicants.
