@@ -1,0 +1,2 @@
+*.mp4 filter=lfs diff=lfs merge=lfs -text
+Job_Board_vid.mp4 filter=lfs diff=lfs merge=lfs -text
