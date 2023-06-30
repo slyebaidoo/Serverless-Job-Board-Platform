@@ -239,3 +239,7 @@ Figure 3.1
 Overall, the project provided valuable insights into building scalable and serverless applications using AWS services. 
 It emphasized the importance of automation, proper infrastructure design, and efficient communication between components. 
 I have a new skill that set's me apart from fellow Job Applicants.
+
+
+# Project Video
+<video src="Video/Job_Board_vid.mp4" controls title="Project Video"></video>
